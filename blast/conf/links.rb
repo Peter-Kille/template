@@ -67,13 +67,13 @@ module SequenceServer
       elsif type == 'gene'
         url = "#{url}/Gene/Summary?db=core;g=#{accession}"
       elsif type == 'contig' || type == 'scaffold' || type == 'chromosome'
-        subjstart = self.subjstart
-        subjend = self.subjend
-        if subjstart > subjend
-          subjend = self.subjstart
-          subjstart = self.subjend
+        sstart = self.coordinates[1][0]
+        send = self.coordinates[1][1]
+        if sstart > send
+          send = self.coordinates[1][0]
+          sstart = self.coordinates[1][1]
         end
-        url = "#{url}/Location/View?r=#{accession}#{colon}#{subjstart}-#{subjend}"
+        url = "#{url}/Location/View?r=#{accession}#{colon}#{sstart}-#{send}"
       end
       {
         :order => 2,
