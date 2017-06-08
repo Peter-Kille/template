@@ -59,7 +59,7 @@ module SequenceServer
 
       accession = encode accession
       colon = ':'
-      url = "http://ensembl.genomehubs.org/#{assembly}"
+      url = "http://ensembl.example.com/#{assembly}"
       if type == 'protein' || type == 'aa'
         url = "#{url}/Transcript/ProteinSummary?db=core;p=#{accession}"
       elsif type == 'cds' || type == 'transcript'
