@@ -41,14 +41,10 @@ module SequenceServer
 
     def genomehubs
       taxa = {}
-      taxa["melitaea_cinxia_core_32_85_1"] = "Melitaea_cinxia"
-      taxa["operophtera_brumata_obru1_core_32_85_1"] = "Operophtera_brumata_obru1"
+      taxa["melitaea_cinxia_core_36_89_1"] = "Melitaea_cinxia"
+      taxa["operophtera_brumata_obru1_core_36_89_1"] = "Operophtera_brumata_obru1"
 
-      if title.match(TITLE_PATTERN)
-        assembly = Regexp.last_match[1]
-        type = Regexp.last_match[2]
-        accession = id
-      elsif id.match(ID_PATTERN)
+      if id.match(ID_PATTERN)
         assembly = Regexp.last_match[1]
         type = Regexp.last_match[2]
         accession = Regexp.last_match[3]
