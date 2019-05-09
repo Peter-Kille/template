@@ -10,22 +10,18 @@ module SequenceServer
     ID_PATTERN = /(.+?)__(.+?)__(.+)/
 
     def genomehubs
-#      taxa = {}
-#      taxa["melitaea_cinxia_core_40_93_1"] = "Melitaea_cinxia"
-#      taxa["operophtera_brumata_obru1_core_40_93_1"] = "Operophtera_brumata_obru1"
-
+      # Generate link to GenomeHubs Ensembl
       if id.match(ID_PATTERN)
         assembly = Regexp.last_match[1]
         type = Regexp.last_match[2]
         accession = Regexp.last_match[3]
       end
       return nil unless accession
- #     return nil unless taxa.has_key?(assembly)
-#      assembly = encode taxa[assembly]
       assembly = encode assembly
 
       accession = encode accession
       colon = ':'
+      # Change the following line to match your domain
       url = "http://localhost:8881/#{assembly}"
       if type == 'protein' || type == 'aa'
         url = "#{url}/Transcript/ProteinSummary?db=core;p=#{accession}"
