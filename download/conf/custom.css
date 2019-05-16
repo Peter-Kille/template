@@ -1,3 +1,7 @@
+#root {
+  top: 80px;
+}
+
 .lb-navbar {
   border-bottom: none;
   background-color: #333333;

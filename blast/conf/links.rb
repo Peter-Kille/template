@@ -40,22 +40,16 @@ module SequenceServer
     end
 
     def genomehubs
-      taxa = {}
-      taxa["melitaea_cinxia_core_36_89_1"] = "Melitaea_cinxia"
-      taxa["operophtera_brumata_obru1_core_36_89_1"] = "Operophtera_brumata_obru1"
 
       if id.match(ID_PATTERN)
         assembly = Regexp.last_match[1]
         type = Regexp.last_match[2]
         accession = Regexp.last_match[3]
       end
-      return nil unless accession
-      return nil unless taxa.has_key?(assembly)
-      assembly = encode taxa[assembly]
 
       accession = encode accession
       colon = ':'
-      url = "http://ensembl.example.com/#{assembly}"
+      url = "http://localhost:8881/#{assembly}"
       if type == 'protein' || type == 'aa'
         url = "#{url}/Transcript/ProteinSummary?db=core;p=#{accession}"
       elsif type == 'cds' || type == 'transcript'
