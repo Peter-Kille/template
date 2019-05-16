@@ -9,54 +9,27 @@ module SequenceServer
     TITLE_PATTERN = /(\S+)\s(\S+)/
     ID_PATTERN = /(.+?)__(.+?)__(.+)/
 
-    def sequence_viewer
-      accession  = encode self.accession
-      database_ids = encode querydb.map(&:id).join(' ')
-      url = "get_sequence/?sequence_ids=#{accession}" \
-            "&database_ids=#{database_ids}"
-
-      {
-        :order => 0,
-        :url   => url,
-        :title => 'Sequence',
-        :class => 'view-sequence',
-        :icon  => 'fa-eye'
-      }
-    end
-
-    def fasta_download
-      accession  = encode self.accession
-      database_ids = encode querydb.map(&:id).join(' ')
-      url = "get_sequence/?sequence_ids=#{accession}" \
-            "&database_ids=#{database_ids}&download=fasta"
-
-      {
-        :order => 1,
-        :title => 'FASTA',
-        :url   => url,
-        :class => 'download',
-        :icon  => 'fa-download'
-      }
-    end
-
     def genomehubs
-
+      # Generate link to GenomeHubs Ensembl
       if id.match(ID_PATTERN)
         assembly = Regexp.last_match[1]
         type = Regexp.last_match[2]
         accession = Regexp.last_match[3]
       end
+      return nil unless accession
+      assembly = encode assembly
 
       accession = encode accession
       colon = ':'
+      # Change the following line to match your domain
       url = "http://localhost:8881/#{assembly}"
       if type == 'protein' || type == 'aa'
         url = "#{url}/Transcript/ProteinSummary?db=core;p=#{accession}"
-      elsif type == 'cds' || type == 'transcript'
+      elsif type == 'cds' || type == 'transcript' || type == 'cdna'
         url = "#{url}/Transcript/Summary?db=core;t=#{accession}"
       elsif type == 'gene'
         url = "#{url}/Gene/Summary?db=core;g=#{accession}"
-      elsif type == 'contig' || type == 'scaffold' || type == 'chromosome'
+      elsif type == 'contig' || type == 'scaffold' || type == 'chromosome' || type == 'dna'
         sstart = self.coordinates[1][0]
         send = self.coordinates[1][1]
         if sstart > send
@@ -66,7 +39,7 @@ module SequenceServer
         url = "#{url}/Location/View?r=#{accession}#{colon}#{sstart}-#{send}"
       end
       {
-        :order => 2,
+        :order => 0,
         :title => 'genomehubs',
         :url   => url,
         :icon  => 'fa-external-link'
